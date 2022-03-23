@@ -1,0 +1,250 @@
+﻿@charset "UTF-8";
+* {
+  box-sizing: border-box; 
+}
+
+body {
+  font-family: Arial, Helvetica; 
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 15px; 
+}
+
+.col-1 {
+  width: 8.33%; 
+}
+
+.col-2 {
+  width: 16.66%; 
+}
+
+.col-3 {
+  width: 25%; 
+}
+
+.col-4 {
+  width: 33.33%; 
+}
+
+.col-5 {
+  width: 41.66%; 
+}
+
+.col-6 {
+  width: 33%; 
+}
+.col-66 {
+    width: 95%;
+}
+.col-7 {
+  width: 58.33%; 
+}
+
+.col-8 {
+  width: 66.66%; 
+}
+
+.col-9 {
+  width: 75%; 
+}
+
+.col-10 {
+  width: 83.33%; 
+}
+
+.col-11 {
+  width: 91.66%; 
+}
+
+.col-12 {
+  width: 100%; 
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: block; 
+}
+
+.container {
+  /*width:1170px;  cấu hình để tạo container giữa*/
+  margin: 0 auto; 
+}
+
+header {
+  background-color: #ffff;
+  overflow: auto;
+  color: #00000;
+  text-align: center;
+  padding: 10px; 
+}
+  header img {
+    width: 10%;
+    float: left;
+    border-radius: 100px;
+    margin-right: 30px; 
+  }
+  header h2 {
+    font-size: 18px;
+    font-weight: bold; 
+  }
+  header p {
+    font-style: italic;
+    padding: 10px; 
+  }
+
+.row .col-2 {
+  background-color: #ffffff;
+  color: #000000; 
+}
+  .row .col-2 .logo {
+    padding: 0; 
+  }
+    .row .col-2 .logo img {
+      width: 50%;
+      float: center;
+      border-radius: 100px;
+      margin-right: 0px; 
+    }
+    .row .col-2 .logo h2 {
+      font-size: 25px;
+      font-weight: bold; 
+    }
+    .row .col-2 .logo p {
+      font-style: italic;
+      padding: 5; 
+    }
+  .row .col-2 .categories {
+    background: #ffffff; 
+  }
+    .row .col-2 .categories h4 {
+      font-size: 20px;
+      font-weight: bold;
+      color: #0c9c69;
+      padding: 0 0 5px 0;
+      border-bottom: 3px solid #de7a33; 
+    }
+    .row .col-2 .categories li {
+      display: block;
+      padding: 5px; 
+    }
+      .row .col-2 .categories li:hover {
+        background: #339966; 
+      }
+      .row .col-2 .categories li a {
+        display: block;
+        text-decoration: none;
+        overflow: hidden; 
+      }
+        .row .col-2 .categories li a .tile {
+          color: #34f545; 
+        }
+  .row .col-2 .ads img {
+    width: 100%; 
+  }
+.row .col-10 .row {
+  background: #ffffff;
+  border-bottom: 1px solid #de7a33;
+  margin-bottom: 30px; 
+}
+  .row .col-10 .row .chart {
+    margin-bottom: 10px; 
+  }
+
+nav {
+  margin: 0;
+  padding: 0;
+  background: #7D7D7D;
+  overflow: hidden;
+  font-size: 18px; 
+}
+  nav .side-nav a {
+    display: inline-block;
+    padding: 15px;
+    text-decoration: none;
+    color: #ffffff; 
+  }
+    nav .side-nav a:hover {
+      background-color: #009688; 
+    }
+    nav .side-nav a.close {
+      display: none; 
+    }
+  nav i.fas {
+    position: absolute;
+    right: 10px;
+    margin: 8px 10px;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    display: none; 
+  }
+
+@media only screen and (max-width: 768px) {
+  nav.mobile-mod {
+    text-align: center;
+    z-index: 1;
+    overflow: auto;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #ffff; 
+  }
+    nav.mobile-mod .side-nav {
+      display: block; 
+    }
+      nav.mobile-mod .side-nav a {
+        display: block;
+        color: #009688; 
+      }
+        nav.mobile-mod .side-nav a.close {
+          font-weight: bold;
+          display: block; 
+        }
+          nav.mobile-mod .side-nav a.close i {
+            position: relative;
+            display: inline-block;
+            color: #009688;
+            font-size: 20px; 
+          }
+        nav.mobile-mod .side-nav a:hover {
+          background-color: #BDBDBD; 
+        }
+  nav .side-nav {
+    height: 45px; 
+  }
+    nav .side-nav a {
+      display: none; 
+    }
+  nav i.fas {
+    display: block;
+    right: 0; 
+  }
+
+  [class*="col-"] {
+    float: none;
+    display: block;
+    width: 100%;
+    text-align: center; 
+  }
+
+  .container {
+    width: 100%;
+    display: block; 
+  }
+    .container img {
+      width: 100%; 
+    }
+
+  footer .container {
+    width: 100%;
+    display: block; 
+  }
+  footer .copyright {
+    text-align: center; 
+  } 
+}
+
+/*# sourceMappingURL=thangplc.css.map */

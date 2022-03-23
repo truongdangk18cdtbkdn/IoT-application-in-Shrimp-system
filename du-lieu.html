@@ -1,0 +1,297 @@
+﻿
+<!--Enum Decleration-->
+<!-- AWP_Enum_Def Name='BitStatus' Values='0:"đã DỪNG",1:"đang CHẠY"' -->
+<!--Enum Reference-->
+<!-- AWP_Enum_Ref Name='"output_water_fan"' Enum='BitStatus' -->
+<!-- AWP_Enum_Ref Name='"output_xiphong"' Enum='BitStatus' -->
+<!-- AWP_Enum_Ref Name='"may_cho_an"' Enum='BitStatus' -->
+<!-- AWP_Enum_Ref Name='"output_bom_nuoc"' Enum='BitStatus' -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>IoT HT nuôi tôm - Dữ liệu</title>
+    <link rel="stylesheet" href="css/nut-nhan.css" type="text/css" />
+    <link rel="stylesheet" href="css/ti-le.css" type="text/css" />	
+    <link rel="stylesheet" href="css/toastr.css" type="text/css" />
+    <link rel="stylesheet" href="css/toastr-responsive.css" type="text/css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+<body>
+	<div id="main">
+        <img src="image/logotruong.png" width="73.5px" height="73.5px" style="float:left;" />
+        <div id="text-tieu-de">
+            <h5 style="text-align:left; float:left;"> TRƯỜNG ĐẠI HỌC BÁCH KHOA - ĐẠI HỌC ĐÀ NẴNG </h5>
+            <h5 style="text-align:right;"> ỨNG DỤNG I.O.T TRONG HỆ THỐNG NUÔI TÔM </h5>
+        </div>
+        <img src="image/logokhoa.png" width="73.5px" height="73.5px" style="float:left;" />
+    </div>
+    <div class="row">
+        <div style="float:left;width:250px;height:880px;background-color:#ececec">
+            <ul id="thanh-chon-2">
+                <a href="index.html">
+                    <li class="thanh-chon-2">
+                        <b>Điều khiển</b>
+                    </li>
+                </a>
+                <a href="du-lieu.html">
+                    <li class="thanh-chon-2" style="background-color:#727272;">
+                        <b>Dữ liệu</b>
+                    </li>
+                </a>
+            </ul>  
+            <br /><br /><br />
+                <ul>
+					<img src="image/quat_nuoc.png" width="170px" height="100px"/>
+                    Quạt nước: <b style="color:red;"> :="output_water_fan": </b>
+                </ul>
+                <br />
+                <ul>
+					<img src="image/bom_xi_phong.png" width="170px" height="100px"/>
+                    Bơm xiphông:<b style="color:red;">:="output_xiphong":</b>
+                </ul>
+                <br />
+                <ul>
+					<img src="image/bom_nuoc.jpg" width="170px" height="100px"/>
+                    Bơm nước: <b style="color:red;"> :="output_bom_nuoc": </b>
+                </ul>
+                <br />
+                <ul>
+                    <img src="image/may_cho_an_2.png" width="183px" height="100px" />
+                    Máy cho ăn: <b style="color:red;"> :="may_cho_an": </b>
+                </ul>
+        </div>
+        <div class="col-10" style="float:left;">
+            <div class="container">
+                <div class="row content content-even">
+                    <div class="col-6" id="nhiet_do"></div>
+                    <div class="col-6" id="pH"></div>
+                    <div class="col-6" id="do_duc"></div>
+                </div>
+
+                <div class="row">
+                    <h4>Biểu đồ ĐỘ ĐỤC của nước:</h4>
+                    <div class="chart" id="myfirstchart" style="height: 190px;background-color:#ececec;"></div>
+                </div>
+				<br />
+				<div class="row">
+                    <h4>Biểu đồ Độ pH:</h4>
+                    <div class="chart" id="myfirstchart2" style="height: 190px;background-color:#ececec;"></div>
+                </div>
+            </div>
+        </div>  <!-- Control Site-->
+    </div>
+	<div class="foot">
+		<p>Giáo viên hướng dẫn: TS. LÊ HOÀI NAM</p>
+        <p>Nhóm sinh viên thực hiện: Đặng Nhật Trường, Nguyễn Thanh Hạ, Ngô Thành Đông, Nguyễn Khoa Quang Nhân</p>
+        <p>@ Copyright by Đặng Nhật Trường</p>
+    </div>
+
+
+<!-- Java Area -->
+	 ​
+    <script src="js/jquery-2.0.2.min.js"></script>
+    <script type="text/javascript" src="js/morris.min.js"></script>
+	<script src="js/toastr.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/raphael.2.1.0.min.js"></script>
+    <script src="js/justgage.1.0.1.min.js"></script>
+    <script src="js/toastr.js"></script>
+    <script src="js/switch.js"></script>
+
+
+	<script type="text/javascript">
+		var x=document.getElementById("side-nav");
+		function open_nav(){
+			x.classList.add("mobile-mod");
+		}
+		function close_nav(){
+			x.classList.remove("mobile-mod");
+		}
+	</script>
+
+    <script type="text/javascript">
+    var x2 = document.getElementById("side-nav");
+    function open_nav() {
+        x2.classList.add("mobile-mod");
+    }
+    function close_nav() {
+        x2.classList.remove("mobile-mod");
+    }
+    </script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+		///CHART DRAWING
+		    var chartdata = [];
+		    var chartdata2 = [];
+		    var countdata=0;
+		//var myobj = JSON.parse(chartdata);
+		function data(offset) {
+		  var ret = [];
+		  for (var x = 0; x <= 360; x += 10) {
+		    var v = (offset + x) % 360;
+		    ret.push({
+		      x: x,
+		      y: Math.sin(Math.PI * v / 180).toFixed(4),
+		      z: Math.cos(Math.PI * v / 180).toFixed(4)
+		    });
+		  }
+		  return ret;
+		}
+
+		var graph=new Morris.Line({
+		  // ID of the element in which to draw the chart.
+		  element: 'myfirstchart',
+		  // Chart data records -- each entry in this array corresponds to a point on the chart.
+		  data: chartdata,
+    	  xkey: 'x',
+          ykeys: 'y',
+		  // Labels for the ykeys -- will be displayed when you hover over the chart.
+		  labels: ['Giá trị:']
+		});
+
+		var graph2 = new Morris.Line({
+		    element: 'myfirstchart2',
+		    data: chartdata2,
+		    xkey: 'x',
+		    ykeys: 'y',
+		    labels: ['Giá trị:']
+		});
+	 //CODE FOR THE GAUSE
+		var nhiet_do = new JustGage({
+          id: "nhiet_do", 
+          value: getRandomInt(0, 100), 
+          min: 0,
+          max: 100,
+          title: "Nhiệt độ",
+          label: ""
+        });
+        
+        var pH = new JustGage({
+          id: "pH", 
+          value: getRandomInt(0, 14), 
+          min: 0,
+          max: 14,
+          title: "Độ pH",
+          label: ""
+        });
+	    
+        var do_duc = new JustGage({
+            id: "do_duc",
+            value: getRandomInt(0, 1000),
+            min: 0,
+            max: 1000,
+            title: "Độ đục",
+            label: ""
+        })
+
+		    ///// SWITCH CONTROL        
+        defaults = {
+            size: 'large'
+		  , checked: undefined
+		  , onText: 'Bật'
+		  , offText: 'Tắt'
+		  , onSwitchColor: '#0369b2'
+		  , offSwitchColor: '#fff'
+		  , onJackColor: '#fff'
+		  , offJackColor: '#fff'
+		  , showText: true
+		  , disabled: false
+		  , onInit: function () { }
+		  , beforeChange: function () { }
+		  , onChange: function () {
+
+		      sdata1 = escape('"data_web_1".water_fan') + '=' + +mySwitch1.getChecked();
+		      postData(sdata1);
+		      sdata2 = escape('"data_web_1".xi_phong') + '=' + +mySwitch2.getChecked();
+		      postData(sdata2);
+		      sdata3 = escape('"data_web_1".bom_nuoc') + '=' + +mySwitch3.getChecked();
+		      postData(sdata3);
+		      sdata4 = escape('"data_web_1".may_cho_an') + '=' + +mySwitch4.getChecked();
+		      postData(sdata4);
+		  }
+		  , beforeRemove: function () { }
+		  , onRemove: function () { }
+		  , beforeDestroy: function () { }
+		  , onDestroy: function () { }
+        };
+
+        function postData(sdata) {
+            var url = "/" + window.location.pathname.substr(1);
+            $.post(url, sdata, function (result) { });
+            console.log(sdata);
+        };
+
+        var el = document.querySelector('.checkbox-switch1');
+		    //el.addEventListener('change', pump1, false);
+        var mySwitch1 = new Switch(el, defaults);
+
+        var e2 = document.querySelector('.checkbox-switch2');
+        var mySwitch2 = new Switch(e2, defaults);
+
+        var e3 = document.querySelector('.checkbox-switch3');
+        var mySwitch3 = new Switch(e3, defaults);
+
+        var e4 = document.querySelector('.checkbox-switch4');
+        var mySwitch4 = new Switch(e4, defaults);
+
+		//GET DATA AJAX 2 second
+		$.ajaxSetup({ cache: false }); 
+		setInterval(ReadData, 2000);
+		function ReadData() {
+			$.get("data.htm", function(result){
+			    var data = result.split(/;?\r\n|;?\n|;?\r/);
+				$('#dtl').text(data[0]); //update datetime 
+				nhiet_do.refresh(data[1]); //update gause 1
+				pH.refresh(data[2]); //update gause 2
+				do_duc.refresh(data[3]); //update gause 3
+				//chartdata += "{ x:"+ countdata + ", value: "+ countdata +"},";
+				//Add chart data
+				countdata+=1;
+				if(countdata>10){
+					//chartdata=[];
+				    chartdata.shift();
+					chartdata.push({
+					    x:countdata,
+					    y: data[3],
+					});
+
+					chartdata2.shift();
+					chartdata2.push({
+					    x: countdata,
+					    y: data[2]
+					})
+					//countdata=0;				
+				}
+				else{
+					chartdata.push({
+					    x:countdata,
+					    y:data[3]
+					});
+					chartdata2.push({
+					    x: countdata,
+					    y: data[2]
+					});
+				};
+				console.log(chartdata);
+				console.log(chartdata2);
+				graph.setData(chartdata);
+				graph2.setData(chartdata2);
+				
+				//console.log(mySwitch1.getChecked());
+				//Check control
+
+				// if (mySwitch1.getChecked() == true){
+				//    console.log("ON");
+				//  } else {
+				//    console.log("OFF");
+				//  }
+			});
+		};
+		setTimeout(ReadData, 2000);			
+	}); //Close Documnet Ready
+	</script>
+</body>
+</html>

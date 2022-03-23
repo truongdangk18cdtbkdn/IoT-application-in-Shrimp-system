@@ -1,0 +1,372 @@
+﻿<!-- AWP_In_Variable Name='"data_web_1".water_fan' -->
+<!-- AWP_In_Variable Name='"data_web_1".xi_phong' -->
+<!-- AWP_In_Variable Name='"data_web_1".may_cho_an' -->
+<!-- AWP_In_Variable Name='"data_web_1".bom_nuoc'-->
+<!-- AWP_In_Variable Name='"data_web_1".fan_on_time'-->
+<!-- AWP_In_Variable Name='"data_web_1".fan_off_time'-->
+<!-- AWP_In_Variable Name='"data_web_1".xiphong_on_time'-->
+<!-- AWP_In_Variable Name='"data_web_1".xiphong_off_time'-->
+<!-- AWP_In_Variable Name='"data_web_1".feed_on_time'-->
+<!-- AWP_In_Variable Name='"data_web_1".feed_off_time'-->
+<!-- AWP_In_Variable Name='"data_web_1".bom_nuoc_on_time'-->
+<!-- AWP_In_Variable Name='"data_web_1".bom_nuoc_off_time'-->
+<!-- AWP_In_Variable Name='"data_web_1".btn_get_data'-->
+<!-- AWP_In_Variable Name='"data_web_1".button_close_file'-->
+<!-- AWP_In_Variable Name='"data_web_1".button_reset_file'-->
+
+<!--Enum Decleration-->
+<!-- AWP_Enum_Def Name='BitStatus' Values='0:"đã DỪNG",1:"đang CHẠY"' -->
+
+<!--Enum Reference-->
+<!-- AWP_Enum_Ref Name='"output_water_fan"' Enum='BitStatus' -->
+<!-- AWP_Enum_Ref Name='"output_xiphong"' Enum='BitStatus' -->
+<!-- AWP_Enum_Ref Name='"may_cho_an"' Enum='BitStatus' -->
+<!-- AWP_Enum_Ref Name='"output_bom_nuoc"' Enum='BitStatus' -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT HT nuôi tôm - Điều khiển</title>
+    <link rel="stylesheet" href="css/nut-nhan.css" type="text/css" />
+    <link rel="stylesheet" href="css/ti-le.css" type="text/css" />
+    <link rel="stylesheet" href="css/toastr.css" type="text/css" />
+    <link rel="stylesheet" href="css/toastr-responsive.css" type="text/css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+<body>
+	<div id="main">
+        <img src="image/logotruong.png" width="73.5px" height="73.5px" style="float:left;" />
+        <div id="text-tieu-de">
+            <h5 style="text-align:left; float:left;"> TRƯỜNG ĐẠI HỌC BÁCH KHOA - ĐẠI HỌC ĐÀ NẴNG </h5>
+            <h5 style="text-align:right;"> ỨNG DỤNG I.O.T TRONG HỆ THỐNG NUÔI TÔM </h5>
+        </div>
+        <img src="image/logokhoa.png" width="73.5px" height="73.5px" style="float:left;" />
+    </div>
+    <div class="row">
+        <div style="float:left;width:250px;height:750px;background-color:#ececec">
+            <ul id="thanh-chon-2">
+                <a href="index.html">
+                    <li class="thanh-chon-2" style="background-color:#727272;">
+                        <b>Điều khiển</b>
+                    </li>
+                </a>
+                <a href="du-lieu.html">
+                    <li class="thanh-chon-2">
+                        <b>Dữ liệu</b>
+                    </li>
+                </a>
+            </ul>  
+            <div class="row content content-even">
+                <div class="col-66" id="nhiet_do"></div>
+                <div class="col-66" id="pH"></div>
+                <div class="col-66" id="do_duc"></div>
+            </div>               
+        </div>
+        <div class="col-10" style="float:left;">           
+            <div id="get_data">
+                <p style="text-align: center;"><b> LẤY DỮ LIỆU </b></p>
+                <div style="width: 50px; height:165px; float:left;">
+                    <img src="image/du-lieu-tong.png" width="48px" ; height="55px;" hspace="0" vspace="0" />
+                    <img src="image/delete.png" width="48px" ; height="50px;" hspace="0" vspace="0" />
+                    <img src="image/add-file.png" width="48px" ; height="50px;" hspace="0" vspace="0" />
+                </div>
+                <div>
+                    <form method="post">
+                        <input type="submit" name='"data_web_1".btn_get_data' value="GET DATA" class="get_data" style="background-color:#0369b2;">
+                    </form>
+
+                    <form method="post">
+                        <input type="submit" name='"data_web_1".button_close_file' value="Xóa file Excel hiện tại" class="get_data" style="background-color:#0369b2;">
+                    </form>
+
+                    <form method="post">
+                        <input type="submit" name='"data_web_1".button_reset_file'  value="Tạo file Excel mới" class="get_data" style="background-color:#0369b2;">
+                    </form>
+                </div>
+            </div>
+            <div id="water_fan">
+                <p></p><b style="text-align: center;">QUẠT NƯỚC</b>
+                <img src="image/quat_nuoc.png" width="40%" height="150px" hspace="0" vspace="0" style="float:left; margin-left: 10px;" />
+                <div id="main_ui_1">
+                    <ul>
+                        <input type="checkbox" id="check1" class="checkbox-switch1" />
+                    </ul>
+                    <p style="text-align:center;color:red;">Trạng thái: <b> :="output_water_fan": </b></p>
+                </div>              
+                <div id="fan_clock">
+                    <form method="post">
+                        <!--Ghi giá trị vào tag "fan_on_time" và "fan_off_time"-->
+                        <p>
+                            < > TG bật:
+                            <input name='"data_web_1".fan_on_time' size="10" value=':="data_web_1".fan_on_time:' type="number" />
+                            <input class="ok_button" style="width: 20%; background-color:#0369b2; font-size:10px;" type="submit" 
+                                   onmousedown="mouseDown_MacroCus()" onmouseup="mouseUp_MacroCus()" /> 
+                        </p>
+                        <p>
+                            < > TG tắt :
+                            <input name='"data_web_1".fan_off_time' size="10" value=':="data_web_1".fan_off_time:' type="number" />
+                            <input class="ok_button" style="width: 20%; background-color:#0369b2; font-size:10px;" type="submit"
+                                   onmousedown="mouseDown_MacroCus()" onmouseup="mouseUp_MacroCus()" /> 
+                        </p>
+                    </form>
+                </div>
+            </div>
+            <div id="may_bom">
+                <p></p><b style="text-align: center;">_BƠM HÚT CHẤT THẢI</b>
+                <img src="image/bom_xi_phong.png" width="40%" height="150px" hspace="0" vspace="0" style="float:left; margin-left: 10px;" />
+                <div id="main_ui_2">
+                    <ul>
+                        <input type="checkbox" id="check2" class="checkbox-switch2" />
+                    </ul>
+                    <p style="text-align:center; color:red;">Trạng thái: <b> :="output_xiphong": </b></p>
+                </div>
+                <div id="bom_clock">
+                    <form method="post">
+                        <!--Ghi giá trị vào tag "xp_on_time" và "xp_off_time"-->
+                        <p>
+                            < > TG bật:
+                            <input name='"data_web_1".xiphong_on_time' size="10" value=':="data_web_1".xiphong_on_time:' type="number" />
+                            <input class="ok_button" style="width: 20%; background-color:#0369b2; font-size:10px;" type="submit"
+                                   onmousedown="mouseDown_MacroCus()" onmouseup="mouseUp_MacroCus()" />
+                        </p>
+                        <p>
+                            < > TG tắt :
+                            <input name='"data_web_1".xiphong_off_time' size="10" value=':="data_web_1".xiphong_off_time:' type="number" />
+                            <input class="ok_button" style="width: 20%; background-color:#0369b2; font-size:10px;" type="submit"
+                                   onmousedown="mouseDown_MacroCus()" onmouseup="mouseUp_MacroCus()" />
+                        </p>
+                    </form>
+                </div>
+            </div>
+            <div id="input_pH_range">
+                <p></p><b style="text-align: center;">______MÁY CHO ĂN____</b>
+                <img src="image/may_cho_an_2.png" width="40%" height="150px" hspace="0" vspace="0" style="float:left; margin-left: 10px;" />
+                <div id="main_ui_3">
+                    <ul>
+                        <input type="checkbox" id="check3" class="checkbox-switch3" />
+                    </ul>
+                    <p style="text-align:center;color:red;">Trạng thái: <b> :="may_cho_an": </b></p>
+                </div>
+                <div id="bom_nuoc_clock">
+                    <form method="post">
+                        <!--Ghi giá trị vào tag "feed_on_time" và "feed_off_time"-->
+                        <p>
+                            < > TG bật:
+                            <input name='"data_web_1".feed_on_time' size="10" value=':="data_web_1".feed_on_time:' type="number" />
+                            <input class="ok_button" style="width: 20%; background-color:#0369b2; font-size:10px;" type="submit"
+                                   onmousedown="mouseDown_MacroCus()" onmouseup="mouseUp_MacroCus()" />
+                        </p>
+                        <p>
+                            < > TG tắt :
+                            <input name='"data_web_1".feed_off_time' size="10" value=':="data_web_1".feed_off_time:' type="number" />
+                            <input class="ok_button" style="width: 20%; background-color:#0369b2; font-size:10px;" type="submit"
+                                   onmousedown="mouseDown_MacroCus()" onmouseup="mouseUp_MacroCus()" />
+                        </p>
+                    </form>
+                </div>
+            </div>
+            <div id="bom_nuoc">
+                <p></p><b style="text-align: center;">______BƠM NƯỚC__________</b>
+                <img src="image/bom_nuoc.jpg" width="40%" height="150px" hspace="0" vspace="0" style="float:left; margin-left: 10px;" />
+                <div id="main_ui_3">
+                    <ul>
+                        <input type="checkbox" id="check4" class="checkbox-switch4" />
+                    </ul>
+                    <p style="text-align:center;color:red;">Trạng thái: <b> :="output_bom_nuoc": </b></p>
+                </div>
+                <div id="bom_nuoc_clock">
+                    <form method="post">
+                        <!--Ghi giá trị vào tag "bom_nuoc_on_time" và "bom_nuoc_off_time"-->
+                        <p>
+                            < > TG bật:
+                            <input name='"data_web_1".bom_nuoc_on_time' size="10" value=':="data_web_1".bom_nuoc_on_time:' type="number" />
+                            <input class="ok_button" style="width: 20%; background-color:#0369b2; font-size:10px;" type="submit"
+                                   onmousedown="mouseDown_MacroCus()" onmouseup="mouseUp_MacroCus()" />
+                        </p>
+                        <p>
+                            < > TG tắt :
+                            <input name='"data_web_1".bom_nuoc_off_time' size="10" value=':="data_web_1".bom_nuoc_off_time:' type="number" />
+                            <input class="ok_button" style="width: 20%; background-color:#0369b2; font-size:10px;" type="submit"
+                                   onmousedown="mouseDown_MacroCus()" onmouseup="mouseUp_MacroCus()" />
+                        </p>
+                    </form>
+                </div>
+            </div>  
+            <div class="container">
+                <div class="row">
+                    <div class="chart" id="myfirstchart" style="height: 1px;background-color:#ececec;"></div>
+                </div>
+            </div>
+        </div>  <!-- Control Site-->
+    </div>
+	<div class="foot">
+		<p>Giáo viên hướng dẫn: TS. LÊ HOÀI NAM</p>
+        <p>Nhóm sinh viên thực hiện: Đặng Nhật Trường, Nguyễn Thanh Hạ, Ngô Thành Đông, Nguyễn Khoa Quang Nhân</p>
+        <p>@ Copyright by Đặng Nhật Trường</p>
+    </div>
+
+<!-- Java Area -->
+	 ​
+    <script src="js/jquery-2.0.2.min.js"></script>
+    <script type="text/javascript" src="js/morris.min.js"></script>
+    <script src="js/toastr.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/raphael.2.1.0.min.js"></script>
+    <script src="js/justgage.1.0.1.min.js"></script>
+    <script src="js/toastr.js"></script>
+    <script src="js/switch.js"></script>
+
+
+    <script type="text/javascript">
+        var x = document.getElementById("side-nav");
+        function open_nav() {
+            x.classList.add("mobile-mod");
+        }
+        function close_nav() {
+            x.classList.remove("mobile-mod");
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            ///CHART DRAWING
+            var chartdata = [];
+            var countdata = 0;
+            //var myobj = JSON.parse(chartdata);
+            function data(offset) {
+                var ret = [];
+                for (var x = 0; x <= 360; x += 10) {
+                    var v = (offset + x) % 360;
+                    ret.push({
+                        x: x,
+                        y: Math.sin(Math.PI * v / 180).toFixed(4),
+                        z: Math.cos(Math.PI * v / 180).toFixed(4)
+                    });
+                }
+                return ret;
+            }
+
+            var graph = new Morris.Line({
+                // ID of the element in which to draw the chart.
+                element: 'myfirstchart',
+                // Chart data records -- each entry in this array corresponds to a point on the chart.
+                data: chartdata,
+                xkey: 'x',
+                ykeys: 'y',
+                // Labels for the ykeys -- will be displayed when you hover over the chart.
+                labels: ['Giá trị:']
+            });
+            //CODE FOR THE GAUSE
+            var nhiet_do = new JustGage({
+                id: "nhiet_do",
+                value: getRandomInt(20, 32),
+                min: 0,
+                max: 100,
+                title: "Nhiệt độ",
+                label: ""
+            });
+
+            var pH = new JustGage({
+                id: "pH",
+                value: getRandomInt(6, 8),
+                min: 0,
+                max: 14,
+                title: "Độ pH",
+                label: ""
+            });
+
+            var do_duc = new JustGage({
+                id: "do_duc",
+                value: getRandomInt(300, 600),
+                min: 0,
+                max: 1000,
+                title: "Độ đục",
+                label: ""
+            })
+
+            ///// SWITCH CONTROL
+            defaults = {
+                size: 'large'
+              , checked: undefined
+              , onText: 'Bật'
+              , offText: 'Tắt'
+              , onSwitchColor: '#0369b2'
+              , offSwitchColor: '#fff'
+              , onJackColor: '#fff'
+              , offJackColor: '#fff'
+              , showText: true
+              , disabled: false
+              , onInit: function () { }
+              , beforeChange: function () { }
+              , onChange: function () {
+
+                  sdata1 = escape('"data_web_1".water_fan') + '=' + +mySwitch1.getChecked();
+                  postData(sdata1);
+                  sdata2 = escape('"data_web_1".xi_phong') + '=' + +mySwitch2.getChecked();
+                  postData(sdata2);
+                  sdata3 = escape('"data_web_1".may_cho_an') + '=' + +mySwitch3.getChecked();
+                  postData(sdata3);
+                  sdata4 = escape('"data_web_1".bom_nuoc') + '=' + +mySwitch4.getChecked();
+                  postData(sdata4);
+              }
+              , beforeRemove: function () { }
+              , onRemove: function () { }
+              , beforeDestroy: function () { }
+              , onDestroy: function () { }
+            };
+
+            function postData(sdata) {
+                var url = "/" + window.location.pathname.substr(1);
+                $.post(url, sdata, function (result) { });
+                console.log(sdata);
+            };
+
+            var el = document.querySelector('.checkbox-switch1');
+            //el.addEventListener('change', pump1, false);
+            var mySwitch1 = new Switch(el, defaults);
+
+            var e2 = document.querySelector('.checkbox-switch2');
+            var mySwitch2 = new Switch(e2, defaults);
+
+            var e3 = document.querySelector('.checkbox-switch3');
+            var mySwitch3 = new Switch(e3, defaults);
+
+            var e4 = document.querySelector('.checkbox-switch4');
+            var mySwitch4 = new Switch(e4, defaults);
+
+
+            //GET DATA AJAX 2 second
+            $.ajaxSetup({ cache: false });
+            setInterval(ReadData, 3000);
+            function ReadData() {
+                $.get("data.htm", function (result) {
+                    var data = result.split('\n')
+                    $('#dtl').text(data[0]); //update datetime
+                    nhiet_do.refresh(data[1]); //update gause
+                    do_pH.refresh(data[2]);
+                    do_duc.refresh(data[3]);
+                    //chartdata += "{ x:"+ countdata + ", value: "+ countdata +"},";
+                    countdata += 1;
+                    if (countdata > 10) {
+                        chartdata.shift();
+                        chartdata.push({
+                            x: countdata,
+                            y: data[3],
+                        });
+                    }
+                    else {
+                        chartdata.push({
+                            x: countdata,
+                            y: data[3]
+                        });
+                    };
+                    graph.setData(chartdata);
+                });
+            };
+            setTimeout(ReadData, 3000);
+        });
+    </script>
+</body>
+</html>
